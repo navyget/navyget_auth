@@ -7,6 +7,9 @@
     "start": "babel-node --presets es2015 server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "9.4.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/navyget/navyget_auth.git"
@@ -23,6 +26,7 @@
   },
   "homepage": "https://github.com/navyget/navyget_auth#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",

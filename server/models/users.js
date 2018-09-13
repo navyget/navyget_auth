@@ -82,7 +82,7 @@ UserSchema.methods.toJSON = function () {
 UserSchema.methods.generateAuthToken = function () {
   const user = this;
   const access = 'auth';
-  const token = jwt.sign({ _id: user._id.toHexString(), access },
+  const token = jwt.sign({ _id: user._id.toHexString(), role: user.accountType, access },
     process.env.JWT_SECRET).toString();
 
   user.tokens = user.tokens.concat([{ access, token }]);
@@ -119,6 +119,7 @@ UserSchema.statics.findByToken = function (token) {
 
   return User.findOne({
     _id: decoded._id,
+    accountType: decoded.role,
     'tokens.access': 'auth',
     'tokens.token': token,
   });
