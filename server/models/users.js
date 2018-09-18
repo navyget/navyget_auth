@@ -27,6 +27,11 @@ const UserSchema = mongoose.Schema({
     minlength: 2,
     trim: true,
   },
+  password: {
+    type: String,
+    required: true,
+    minlength: 6,
+  },
   emailAddress: {
     type: String,
     required: true,
@@ -37,11 +42,6 @@ const UserSchema = mongoose.Schema({
       validator: validator.isEmail,
       message: '{VALUE} is not a valid email address',
     },
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6,
   },
   accountType: {
     type: String,
@@ -158,7 +158,10 @@ UserSchema.pre('save', function (next) {
 
   if (user.isModified('password')) {
     bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(user.password, salt, (hash) => {
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if (err) {
+          return err;
+        }
         user.password = hash;
         next();
       });

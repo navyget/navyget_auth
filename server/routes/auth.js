@@ -11,9 +11,9 @@ const router = express.Router();
 
 // normal user registration
 router.post('/user/register', (req, res) => {
-  const body = _.pick(req.body, ['first_name', 'last_name', 'username', 'email_address', 'password', 'account_type']);
-  if (body.account_type !== 'normal user') {
-    res.status(403).send({
+  const body = _.pick(req.body, ['firstName', 'lastName', 'username', 'emailAddress', 'password', 'accountType']);
+  if (body.accountType !== 'normal user') {
+    return res.status(403).send({
       message: 'Please Select normal user as account type',
     });
   }
@@ -30,11 +30,11 @@ router.post('/user/register', (req, res) => {
 
 // create a business account and store
 router.post('/business/register', (req, res) => {
-  const userBody = _.pick(req.body, ['first_name', 'last_name', 'username', 'email_address', 'password', 'account_type']);
+  const userBody = _.pick(req.body, ['firstName', 'lastName', 'username', 'emailAddress', 'password', 'accountType']);
   const storeBody = _.pick(req.body, ['store_name', 'store_type', 'store_category', 'location']);
 
-  if (userBody.account_type !== 'business account') {
-    res.status(403).send({
+  if (userBody.accountType !== 'business account') {
+    return res.status(403).send({
       message: 'Please Select business account as account type',
     });
   }
@@ -45,7 +45,7 @@ router.post('/business/register', (req, res) => {
         return Promise.reject();
       }
       const store = Object.assign({}, storeBody, { _storeAdmin: user._id });
-      return axios.post('http://localhost:3000/store', store).then((response) => {
+      axios.post('http://localhost:3000//navyget-api/v1/store/store', store).then((response) => {
         res.header('x-auth', token).send({
           user,
           response,
