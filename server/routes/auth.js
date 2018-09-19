@@ -70,9 +70,9 @@ router.post('/business/register', (req, res) => {
 
 // login a user {using email and password}
 router.post('/login', (req, res) => {
-  const body = _.pick(req.body, ['email_address', 'password']);
+  const body = _.pick(req.body, ['emailAddress', 'password']);
 
-  Users.findByCredentials(body.email_address, body.password)
+  Users.findByCredentials(body.emailAddress, body.password)
     .then(user => user.generateAuthToken().then((token) => {
       res.header('x-auth', token).send({
         user,
