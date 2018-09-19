@@ -45,10 +45,20 @@ router.post('/business/register', (req, res) => {
         return Promise.reject();
       }
       const store = Object.assign({}, storeBody, { _storeAdmin: user._id });
-      axios.post('http://localhost:3000//navyget-api/v1/store/store', store).then((response) => {
+      axios.post('http://localhost:3001/navyget-api/v1/store/store', store, {
+        headers: {
+          'x-auth': token,
+        },
+      }).then((response) => {
+        if (response.status !== 200) {
+          res.status(400).send({
+            message: 'an error occurred.Please try again',
+          });
+        }
+        const { shop } = response.data;
         res.header('x-auth', token).send({
           user,
-          response,
+          shop,
           message: 'Congratulations. You have successfully registered your business account',
         });
       });
